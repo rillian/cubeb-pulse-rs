@@ -13,9 +13,9 @@ const PULSE_NO_GAIN: f32 = -1.0;
 const PA_USEC_PER_MSEC: pa_usec_t = 1000;
 const PA_USEC_PER_SEC: pa_usec_t = 1000000;
 
-fn cubeb_channel_to_pa_channel(channel: cubeb::Channel) -> pa_channel_position_t
+fn cubeb_channel_to_pa_channel(channel: cubeb::mixer::Channel) -> pa_channel_position_t
 {
-    assert!(channel != cubeb::Channel::Invalid);
+    assert!(channel != cubeb::mixer::Channel::Invalid);
 
     // This variable may be used for multiple times, so we should avoid to
     // allocate it in stack, or it will be created and removed repeatedly.
@@ -187,7 +187,7 @@ impl<'ctx> Stream<'ctx>
                 return Err(cubeb::ERROR);
             }
 
-            if cubeb::g_log_level != cubeb::LogLevel::Disabled {
+            if cubeb::log::g_log_level != cubeb::log::LogLevel::Disabled {
                 if output_stream_params.is_some() {
                     let output_att = *pa_stream_get_buffer_attr(stm.output_stream);
                     log!("Output buffer attributes maxlength %u, tlength %u, \
@@ -439,8 +439,8 @@ impl<'ctx> Stream<'ctx>
         fn to_pulse_format(format: cubeb::SampleFormat) -> pa_sample_format_t
         {
             match format {
-                cubeb::SampleFormat::S16LE => PA_SAMPLE_S16LE,
-                cubeb::SampleFormat::S16BE => PA_SAMPLE_S16BE,
+                cubeb::SampleFormat::Signed16LE => PA_SAMPLE_S16LE,
+                cubeb::SampleFormat::Signed16BE => PA_SAMPLE_S16BE,
                 cubeb::SampleFormat::Float32LE => PA_SAMPLE_FLOAT32LE,
                 cubeb::SampleFormat::Float32BE => PA_SAMPLE_FLOAT32BE,
             }

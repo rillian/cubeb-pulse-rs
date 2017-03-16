@@ -1,7 +1,13 @@
 [package]
 name = "cubeb-ffi"
-version = "0.0.1"
-authors = ["Dan Glastonbury <dglastonbury@mozilla.com>"]
+version = "0.1.0"
+authors = ["Dan Glastonbury <dan.glastonbury@gmail.com>"]
+license-file = "LICENSE"
+links = "cubeb"
+build = "build.rs"
 
 [dependencies]
 libc = "*"
+
+[build-dependencies]
+cmake = "^0.1.2"

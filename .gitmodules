@@ -1,0 +1,3 @@
+[submodule "cubeb-sys"]
+	path = cubeb-sys
+	url = https://github.com/djg/cubeb-sys

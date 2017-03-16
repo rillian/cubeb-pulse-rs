@@ -1,6 +1,10 @@
 extern crate libc;
 
-mod ffi;
+mod errors;
+mod types;
+pub mod internal;
+pub mod log;
 pub mod mixer;
 
-pub use ffi::*;
+pub use errors::*;
+pub use types::*;

@@ -1,0 +1,12 @@
+language: rust
+dist: trusty
+rust:
+  - stable
+  - beta
+  - nightly
+notifications:
+  email:
+    on_success: never
+matrix:
+  allow_failures:
+    -rust: nightly

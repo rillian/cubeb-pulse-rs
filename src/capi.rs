@@ -183,7 +183,7 @@ extern "C" fn capi_register_device_collection_changed(c: *mut cubeb::Context,
     ctx.register_device_collection_changed(devtype, collection_changed_callback, user_ptr)
 }
 
-pub const PULSE_OPS: cubeb::Ops = cubeb::Ops {
+pub const PULSE_OPS: cubeb::internal::Ops = cubeb::internal::Ops {
   init: Some(capi_init),
   get_backend_id: Some(capi_get_backend_id),
   get_max_channel_count: Some(capi_get_max_channel_count),

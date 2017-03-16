@@ -27,38 +27,38 @@ macro_rules! dup_str {
 
 const PA_RATE_MAX: u32 = 48000*8;
 
-fn pa_channel_to_cubeb_channel(channel: pa_channel_position_t) -> cubeb::Channel
+fn pa_channel_to_cubeb_channel(channel: pa_channel_position_t) -> cubeb::mixer::Channel
 {
     assert!(channel != PA_CHANNEL_POSITION_INVALID);
     match channel {
-        PA_CHANNEL_POSITION_MONO => cubeb::Channel::Mono,
-        PA_CHANNEL_POSITION_FRONT_LEFT => cubeb::Channel::Left,
-        PA_CHANNEL_POSITION_FRONT_RIGHT => cubeb::Channel::Right,
-        PA_CHANNEL_POSITION_FRONT_CENTER => cubeb::Channel::Center,
-        PA_CHANNEL_POSITION_SIDE_LEFT => cubeb::Channel::LeftSurround,
-        PA_CHANNEL_POSITION_SIDE_RIGHT => cubeb::Channel::RightSurround,
-        PA_CHANNEL_POSITION_REAR_LEFT => cubeb::Channel::RearLeftSurround,
-        PA_CHANNEL_POSITION_REAR_CENTER => cubeb::Channel::RearCenter,
-        PA_CHANNEL_POSITION_REAR_RIGHT => cubeb::Channel::RearRightSurround,
-        PA_CHANNEL_POSITION_LFE => cubeb::Channel::LowFrequency,
-        _ => cubeb::Channel::Invalid
+        PA_CHANNEL_POSITION_MONO => cubeb::mixer::Channel::Mono,
+        PA_CHANNEL_POSITION_FRONT_LEFT => cubeb::mixer::Channel::Left,
+        PA_CHANNEL_POSITION_FRONT_RIGHT => cubeb::mixer::Channel::Right,
+        PA_CHANNEL_POSITION_FRONT_CENTER => cubeb::mixer::Channel::Center,
+        PA_CHANNEL_POSITION_SIDE_LEFT => cubeb::mixer::Channel::LeftSurround,
+        PA_CHANNEL_POSITION_SIDE_RIGHT => cubeb::mixer::Channel::RightSurround,
+        PA_CHANNEL_POSITION_REAR_LEFT => cubeb::mixer::Channel::RearLeftSurround,
+        PA_CHANNEL_POSITION_REAR_CENTER => cubeb::mixer::Channel::RearCenter,
+        PA_CHANNEL_POSITION_REAR_RIGHT => cubeb::mixer::Channel::RearRightSurround,
+        PA_CHANNEL_POSITION_LFE => cubeb::mixer::Channel::LowFrequency,
+        _ => cubeb::mixer::Channel::Invalid
     }
 }
 
 fn channel_map_to_layout(cm: &pa_channel_map) -> cubeb::ChannelLayout
 {
-    let mut cubeb_map: cubeb::ChannelMap = Default::default();
+    let mut cubeb_map: cubeb::mixer::ChannelMap = Default::default();
     cubeb_map.channels = cm.channels as u32;
     for i in 0usize..cm.channels as usize {
         cubeb_map.map[i] = pa_channel_to_cubeb_channel(cm.map[i]);
     }
-    unsafe { cubeb::cubeb_channel_map_to_layout(&cubeb_map) }
+    unsafe { cubeb::mixer::cubeb_channel_map_to_layout(&cubeb_map) }
 }
 
 #[derive(Debug)]
 pub struct Context
 {
-    pub ops: *const cubeb::Ops,
+    pub ops: *const cubeb::internal::Ops,
     pub mainloop: *mut pa_threaded_mainloop,
     pub context: *mut pa_context,
     pub default_sink_info: *mut pa_sink_info,
@@ -502,10 +502,10 @@ impl Default for PulseDevListData
 fn pulse_format_to_cubeb_format(format: pa_sample_format_t) -> cubeb::DeviceFmt
 {
   match format {
-    PA_SAMPLE_S16LE => cubeb::DeviceFmt::s16_le(),
-    PA_SAMPLE_S16BE => cubeb::DeviceFmt::s16_be(),
-    PA_SAMPLE_FLOAT32LE => cubeb::DeviceFmt::f32_le(),
-    PA_SAMPLE_FLOAT32BE => cubeb::DeviceFmt::f32_be(),
+    PA_SAMPLE_S16LE => cubeb::DeviceFmt::s16le(),
+    PA_SAMPLE_S16BE => cubeb::DeviceFmt::s16be(),
+    PA_SAMPLE_FLOAT32LE => cubeb::DeviceFmt::f32le(),
+    PA_SAMPLE_FLOAT32BE => cubeb::DeviceFmt::f32be(),
     _ => { panic!("Invalid format"); }
   }
 }
@@ -668,7 +668,7 @@ unsafe extern fn pulse_subscribe_callback(_ctx: *mut pa_context,
         PA_SUBSCRIPTION_EVENT_SOURCE |
         PA_SUBSCRIPTION_EVENT_SINK => {
 
-            if cubeb::g_log_level != cubeb::LogLevel::Disabled {
+            if cubeb::log::g_log_level != cubeb::log::LogLevel::Disabled {
                 if (t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK) == PA_SUBSCRIPTION_EVENT_SOURCE &&
                     (t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE {
                    log!("Removing sink index %d", index);
