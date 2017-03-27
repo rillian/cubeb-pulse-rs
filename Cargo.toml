@@ -2,13 +2,17 @@
 name = "cubeb-pulse"
 version = "0.0.1"
 authors = ["Dan Glastonbury <dglastonbury@mozilla.com>"]
-description = "Cubeb backed for Pulse Audio written in Rust"
+description = "Cubeb backend for Pulse Audio written in Rust"
 
 [lib]
 crate-type = ["staticlib"]
 
+[features]
+static-link = ["pulse-ffi/static-link"]
+dynamic-link = ["pulse-ffi/dynamic-link"]
+
 [dependencies]
 cubeb-ffi = { path = "cubeb-ffi" }
 libc = "*"
-libpulse-sys = { path = "libpulse-sys" }
+pulse-ffi = { path = "pulse-ffi", default-features = false }
 semver = "^0.6"
