@@ -1,0 +1,26 @@
+language: rust
+dist: trusty
+cache: cargo
+rust:
+  - 1.15.1
+  - stable
+  - beta
+  - nightly
+os:
+  - linux
+env:
+  - ARCH=x86_64 FEATURES="static-link"
+  - ARCH=x86_64 FEATURES="dynamic-link"
+  - ARCH=i686 FEATURES="static-link"
+  - ARCH=i686 FEATURES="dynamic-link"
+notifications:
+  email:
+    on_success: never
+matrix:
+  allow_failures:
+    -rust: nightly
+script: |
+  echo ARCH=$ARCH
+  echo FEATURES=$FEATURES
+  curl -sSL https://raw.githubusercontent.com/carllerche/travis-rust-matrix/master/test | bash
+  cargo test $FEATURES
