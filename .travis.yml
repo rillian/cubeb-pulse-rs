@@ -1,5 +1,4 @@
 language: rust
-dist: trusty
 cache: cargo
 rust:
   - 1.15.1
