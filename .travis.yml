@@ -12,6 +12,7 @@ addons:
     packages:
       - gcc-multilib
       - libpulse-dev
+      - libpulse-dev:i386
 env:
   - ARCH=x86_64
   - ARCH=x86_64 CARGOOPTS="--features pulse-dynamic-link"
