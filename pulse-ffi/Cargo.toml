@@ -5,8 +5,6 @@ authors = ["Dan Glastonbury <dglastonbury@mozilla.com>"]
 description = "FFI for libpulse.so supporting static linking and dynamic loading."
 
 [features]
-default = ["static-link"]
-static-link = []
 dynamic-link = []
 
 [dependencies]

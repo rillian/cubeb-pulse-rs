@@ -92,7 +92,7 @@ impl Context {
         Ok(ctx)
     }
 
-    #[cfg(feature = "static-link")]
+    #[cfg(not(feature = "dynamic-link"))]
     fn _new(name: *const i8) -> Result<Box<Self>> {
         Ok(Box::new(Context {
                         ops: &PULSE_OPS,

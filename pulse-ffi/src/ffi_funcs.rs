@@ -6,7 +6,7 @@ macro_rules! cstr {
   ($x:expr) => { concat!($x, "\0").as_bytes().as_ptr() as *const c_char }
 }
 
-#[cfg(feature = "static-link")]
+#[cfg(not(feature = "dynamic-link"))]
 mod static_fns {
     use std::os::raw::{c_char, c_double, c_int, c_float, c_uint, c_void};
     use super::*;
@@ -154,7 +154,7 @@ mod static_fns {
     }
 }
 
-#[cfg(feature = "static-link")]
+#[cfg(not(feature = "dynamic-link"))]
 pub use self::static_fns::*;
 
 #[cfg(feature = "dynamic-link")]
