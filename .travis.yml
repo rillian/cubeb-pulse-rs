@@ -15,7 +15,7 @@ env:
   - TARGET=i686-unknown-linux-gnu FEATURES="dynamic-link"
 before_install:
   # Install cross targets which aren't the host architecture.
-  - test -n "${TARGET##x86_64*}" && rustup target add ${TARGET}
+  - test ${TARGET#x86_64} = ${TARGET} && rustup target add ${TARGET}
 notifications:
   email:
     on_success: never
