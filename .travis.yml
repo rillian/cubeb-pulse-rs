@@ -1,35 +1,33 @@
 language: rust
-sudo: false
 cache: cargo
-os:
-- linux
 notifications:
   email:
     on_success: never
-script: |
-  curl -sSL https://raw.githubusercontent.com/djg/travis-rust-matrix/master/test | bash
+
+script:
+  cargo build --target ${TARGET} --features ${FEATURES}
+
+env:
+  TARGET=x86_64-unknown-linux-gnu FEATURES=""
+  TARGET=x86_64-unknown-linux-gnu FEATURES="pulse-dynamic-link"
+  TARGET=i686-unknown-linux-gnu FEATURES=""
+  TARGET=i686_64-unknown-linux-gnu FEATURES="pulse-dynamic-link"
+rust:
+  - 1.15.1
+  - nightly
+
 matrix:
-  exclude:
-    - rust: stable
   include:
-  - rust: 1.15.1
-    env: ARCH=x86_64
-    addons: &apt_64
+  - env: TARGET=x86_64-unknown-linux-gnu
+    addons:
       apt:
         packages:
         - libpulse-dev
-  - rust: 1.15.1
-    env: ARCH=x86_64 CARGOOPTS="--features pulse-dynamic-link"
-    addons: *apt_64
-  - rust: 1.15.1
-    env: ARCH=i686
-    addons: &apt_32
+  - env: TARGET=i686-unknown-linux-gnu
+    addons:
       apt:
         packages:
         - gcc-multilib
         - libpulse-dev:i386
-  - rust: 1.15.1
-    env: ARCH=i686 CARGOOPTS="--features pulse-dynamic-link"
-    addons: *apt_32
   allow_failures:
   - rust: nightly
