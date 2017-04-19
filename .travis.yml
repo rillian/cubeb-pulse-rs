@@ -16,6 +16,7 @@ env:
   TARGET=i686-unknown-linux-gnu FEATURES=""
   TARGET=i686_64-unknown-linux-gnu FEATURES="pulse-dynamic-link"
 rust:
+  - stable
   - 1.15.1
   - nightly
 
