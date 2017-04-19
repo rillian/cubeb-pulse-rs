@@ -10,7 +10,7 @@ script: |
   curl -sSL https://raw.githubusercontent.com/djg/travis-rust-matrix/master/test | bash
 matrix:
   exclude:
-  - rust:
+    - rust: stable
   include:
   - rust: 1.15.1
     env: ARCH=x86_64
