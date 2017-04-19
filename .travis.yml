@@ -11,7 +11,10 @@ addons:
   apt:
     packages:
       - gcc-multilib
+      - libavahi-client-dev
+      - libglib2.0-dev
       - libpulse-dev
+      - libglib2.0-dev:i386
       - libpulse-dev:i386
 env:
   - ARCH=x86_64
