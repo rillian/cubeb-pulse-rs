@@ -7,6 +7,9 @@ notifications:
 script:
   cargo build --target ${TARGET} --features ${FEATURES}
 
+before_install:
+  test "${TARGET%x86_64}" = "${TARGET}" && rustup target add ${TARGET}
+
 env:
   TARGET=x86_64-unknown-linux-gnu FEATURES=""
   TARGET=x86_64-unknown-linux-gnu FEATURES="pulse-dynamic-link"
