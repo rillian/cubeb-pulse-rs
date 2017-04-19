@@ -9,10 +9,13 @@ rust:
 os:
   - linux
 env:
-  - ARCH=x86_64 FEATURES="static-link"
-  - ARCH=x86_64 FEATURES="dynamic-link"
-  - ARCH=i686 FEATURES="static-link"
-  - ARCH=i686 FEATURES="dynamic-link"
+  - TARGET=x86_64-unknown-linux-gnu FEATURES="static-link"
+  - TARGET=x86_64-unknown-linux-gnu FEATURES="dynamic-link"
+  - TARGET=i686-unknown-linux-gnu FEATURES="static-link"
+  - TARGET=i686-unknown-linux-gnu FEATURES="dynamic-link"
+before_install:
+  # Install cross targets which aren't the host architecture.
+  - test -n "${TARGET##x86_64*}" && rustup target add ${TARGET}
 notifications:
   email:
     on_success: never
@@ -20,7 +23,4 @@ matrix:
   allow_failures:
     -rust: nightly
 script: |
-  echo ARCH=$ARCH
-  echo FEATURES=$FEATURES
-  curl -sSL https://raw.githubusercontent.com/carllerche/travis-rust-matrix/master/test | bash
-  cargo test $FEATURES
+  cargo test --target ${TARGET} --features ${FEATURES}
