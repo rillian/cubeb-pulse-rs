@@ -3,10 +3,14 @@ cache: cargo
 notifications:
   email:
     on_success: never
-script: |
-  cargo test --target ${ARCH}-unknown-linux-gnu ${FEATURES:+\--features ${FEATURES}}
-before_install:
-  if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
+script: >
+  cargo test
+    --target ${ARCH}-unknown-linux-gnu
+    ${FEATURES:+\--features ${FEATURES}}
+before_install: >
+  if [ ${ARCH} = "i686" ]; then
+    rustup target add i686-unknown-linux-gnu;
+  fi
 rust:
   - 1.15.1
   - stable
