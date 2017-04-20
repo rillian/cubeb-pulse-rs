@@ -3,14 +3,17 @@ cache: cargo
 notifications:
   email:
     on_success: never
+
+# Invoke cargo with optional target or features switches.
 script: >
-  # Invoke cargo with optional target or features switches.
   cargo test
   ${ARCH:+\--target ${ARCH}-unknown-linux-gnu}}
   ${FEATURES:+\--features ${FEATURES}}
+
+# Install cross target if necessary.
 before_install: |
-  # Install cross target if necessary.
   [ ${ARCH} = "i686" ] && rustup target add i686-unknown-linux-gnu
+
 rust:
   - 1.15.1
   - stable
@@ -21,8 +24,8 @@ addons: &apt_64
     - libpulse-dev
 env:
   # default jobs
-  - ARCH=x86_64
-  - ARCH=x86_64 FEATURES="pulse-dlopen"
+  - FEATURES=""
+  - FEATURES="pulse-dlopen"
 matrix:
   include:
   # Add in 32-bit builds
