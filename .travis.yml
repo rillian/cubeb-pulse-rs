@@ -9,7 +9,7 @@ notifications:
 script:
   cargo test --target ${ARCH}-unknown-linux-gnu ${CARGOOPTS}
 before_install:
-  - if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
+  if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
 rust:
   - 1.15.1
   - stable
