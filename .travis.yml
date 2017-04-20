@@ -24,32 +24,41 @@ addons: &apt_64
     - libpulse-dev
 env:
   # default jobs
-  - FEATURES=""
-  - FEATURES="pulse-dlopen"
+  -
+  - FEATURES=pulse-dlopen
 matrix:
   include:
   # Add in 32-bit builds
   - rust: 1.15.1
-    env: TARGET=i686-unknown-linux-gnu
+    env:
+      - TARGET=i686-unknown-linux-gnu
     addons: &apt_32
       apt:
         packages:
         - gcc-multilib
         - libpulse-dev:i386
   - rust: 1.15.1
-    env: TARGET=i686-unknown-linux-gnu FEATURES="pulse-dlopen"
+    env:
+      - TARGET=i686-unknown-linux-gnu
+      - FEATURES=pulse-dlopen
     addons: *apt_32
   - rust: stable
-    env: TARGET=i686-unknown-linux-gnu
+    env:
+      - TARGET=i686-unknown-linux-gnu
     addons: *apt_32
   - rust: stable
-    env: TARGET=i686-unknown-linux-gnu FEATURES="pulse-dlopen"
+    env:
+      - TARGET=i686-unknown-linux-gnu
+      - FEATURES=pulse-dlopen
     addons: *apt_32
   - rust: nightly
-    env: TARGET=i686-unknown-linux-gnu
+    env:
+      - TARGET=i686-unknown-linux-gnu
     addons: *apt_32
   - rust: nightly
-    env: TARGET=i686-unknown-linux-gnu FEATURES="pulse-dlopen"
+    env:
+      - TARGET=i686-unknown-linux-gnu
+        - FEATURES=pulse-dlopen
     addons: *apt_32
   allow_failures:
   - rust: nightly
