@@ -7,8 +7,8 @@ notifications:
 # Invoke cargo with optional target or features switches.
 script: >
   cargo test
-  ${TARGET:+\--target ${TARGET}}
-  ${FEATURES:+\--features ${FEATURES}}
+  ${TARGET:+--target ${TARGET}}
+  ${FEATURES:+--features ${FEATURES}}
 
 # Install cross target if necessary.
 before_install:
