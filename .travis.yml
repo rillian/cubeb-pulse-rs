@@ -11,8 +11,8 @@ script: >
   ${FEATURES:+\--features ${FEATURES}}
 
 # Install cross target if necessary.
-before_install: |
-  [ -n "${TARGET}" ] && rustup target add ${TARGET}
+before_install:
+  if test -n "${TARGET}"; then rustup target add ${TARGET}; fi
 
 rust:
   - 1.15.1
