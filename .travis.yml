@@ -1,8 +1,5 @@
 language: rust
-sudo: false
 cache: cargo
-os:
-- linux
 notifications:
   email:
     on_success: never
