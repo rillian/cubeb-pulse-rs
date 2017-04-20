@@ -12,7 +12,7 @@ script: >
 
 # Install cross target if necessary.
 before_install: |
-  [ -n ${TARGET} ] && rustup target add ${TARGET}
+  [ -n "${TARGET}" ] && rustup target add ${TARGET}
 
 rust:
   - 1.15.1
