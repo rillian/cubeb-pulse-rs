@@ -3,9 +3,8 @@ cache: cargo
 notifications:
   email:
     on_success: never
-script: |
-  if [ -n ${FEATURES} ]; then CARGO_OPTS="--features ${FEATURES}"; fi;
-  cargo test --target ${ARCH}-unknown-linux-gnu ${CARGO_OPTS}
+script:
+  cargo test --target ${ARCH}-unknown-linux-gnu ${FEATURES:+"--features ${FEATURES}"}
 before_install:
   if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
 rust:
