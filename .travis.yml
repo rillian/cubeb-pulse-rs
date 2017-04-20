@@ -4,10 +4,8 @@ notifications:
   email:
     on_success: never
 script: |
-  TARGET={$ARCH}-unknown-linux-gnu;
   if [ -n ${FEATURES} ]; then CARGO_OPTS="--features ${FEATURES}"; fi;
-  echo ${TARGET} with ${FEATURES};
-  cargo test --target ${TARGET} --features ${FEATURES}
+  cargo test --target ${ARCH}-unknown-linux-gnu ${CARGO_OPTS}
 before_install:
   if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
 rust:
