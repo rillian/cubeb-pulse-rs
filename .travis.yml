@@ -4,13 +4,13 @@ notifications:
   email:
     on_success: never
 script: >
+  # Invoke cargo with optional target or features switches.
   cargo test
-    --target ${ARCH}-unknown-linux-gnu
-    ${FEATURES:+\--features ${FEATURES}}
-before_install: >
-  if [ ${ARCH} = "i686" ]; then
-    rustup target add i686-unknown-linux-gnu;
-  fi
+  ${ARCH:+\--target ${ARCH}-unknown-linux-gnu}}
+  ${FEATURES:+\--features ${FEATURES}}
+before_install: |
+  # Install cross target if necessary.
+  [ ${ARCH} = "i686" ] && rustup target add i686-unknown-linux-gnu
 rust:
   - 1.15.1
   - stable
