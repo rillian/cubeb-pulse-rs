@@ -6,8 +6,10 @@ os:
 notifications:
   email:
     on_success: never
-script: |
-  curl -sSL https://raw.githubusercontent.com/djg/travis-rust-matrix/master/test | bash
+script:
+  cargo test --target ${ARCH}-unknown-linux-gnu ${CARGOOPTS}
+before_install:
+  - if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
 rust:
   - 1.15.1
   - stable
