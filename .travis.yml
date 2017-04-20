@@ -4,7 +4,7 @@ notifications:
   email:
     on_success: never
 script:
-  cargo test --target ${ARCH}-unknown-linux-gnu ${CARGOOPTS}
+  cargo test --target ${ARCH}-unknown-linux-gnu --features ${FEATURES}
 before_install:
   if [ ${ARCH} = "i686" ] ; then rustup target add i686-unknown-linux-gnu; fi
 rust:
@@ -18,7 +18,7 @@ addons: &apt_64
 env:
   # default jobs
   - ARCH=x86_64
-  - ARCH=x86_64 CARGOOPTS="--features pulse-dlopen"
+  - ARCH=x86_64 FEATURES="pulse-dlopen"
 matrix:
   include:
   # Add in 32-bit builds
@@ -30,19 +30,19 @@ matrix:
         - gcc-multilib
         - libpulse-dev:i386
   - rust: 1.15.1
-    env: ARCH=i686 CARGOOPTS="--features pulse-dlopen"
+    env: ARCH=i686 FEATURES="pulse-dlopen"
     addons: *apt_32
   - rust: stable
     env: ARCH=i686
     addons: *apt_32
   - rust: stable
-    env: ARCH=i686 CARGOOPTS="--features pulse-dlopen"
+    env: ARCH=i686 FEATURES="pulse-dlopen"
     addons: *apt_32
   - rust: nightly
     env: ARCH=i686
     addons: *apt_32
   - rust: nightly
-    env: ARCH=i686 CARGOOPTS="--features pulse-dlopen"
+    env: ARCH=i686 FEATURES="pulse-dlopen"
     addons: *apt_32
   allow_failures:
   - rust: nightly
