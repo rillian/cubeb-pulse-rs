@@ -7,12 +7,12 @@ notifications:
 # Invoke cargo with optional target or features switches.
 script: >
   cargo test
-  ${ARCH:+\--target ${ARCH}-unknown-linux-gnu}}
+  ${TARGET:+\--target ${TARGET}}
   ${FEATURES:+\--features ${FEATURES}}
 
 # Install cross target if necessary.
 before_install: |
-  [ ${ARCH} = "i686" ] && rustup target add i686-unknown-linux-gnu
+  [ -n ${TARGET} ] && rustup target add ${TARGET}
 
 rust:
   - 1.15.1
@@ -30,26 +30,26 @@ matrix:
   include:
   # Add in 32-bit builds
   - rust: 1.15.1
-    env: ARCH=i686
+    env: TARGET=i686-unknown-linux-gnu
     addons: &apt_32
       apt:
         packages:
         - gcc-multilib
         - libpulse-dev:i386
   - rust: 1.15.1
-    env: ARCH=i686 FEATURES="pulse-dlopen"
+    env: TARGET=i686-unknown-linux-gnu FEATURES="pulse-dlopen"
     addons: *apt_32
   - rust: stable
-    env: ARCH=i686
+    env: TARGET=i686-unknown-linux-gnu
     addons: *apt_32
   - rust: stable
-    env: ARCH=i686 FEATURES="pulse-dlopen"
+    env: TARGET=i686-unknown-linux-gnu FEATURES="pulse-dlopen"
     addons: *apt_32
   - rust: nightly
-    env: ARCH=i686
+    env: TARGET=i686-unknown-linux-gnu
     addons: *apt_32
   - rust: nightly
-    env: ARCH=i686 FEATURES="pulse-dlopen"
+    env: TARGET=i686-unknown-linux-gnu FEATURES="pulse-dlopen"
     addons: *apt_32
   allow_failures:
   - rust: nightly
